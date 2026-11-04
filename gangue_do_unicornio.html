@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gangue do Unicórnio — QR Rewards</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<style>
+:root{--bg:#0d0720;--card:#1a1033;--line:#4a2d7a;--gold:#ff7ad9;--orange:#8f6bff;--text:#fdf3ff;--muted:#bfaedd;--ok:#35d07f;--bad:#ff5b5b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#4b1a7a 0,#0d0720 48%);color:var(--text);font:15px Arial,sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{border:0;cursor:pointer}.app{max-width:900px;margin:auto;padding:18px 14px 90px}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 2px 18px}.brand{display:flex;gap:10px;align-items:center}.egg{font-size:38px}.brand b{display:block;font-size:20px;color:var(--gold)}.brand small{color:var(--muted)}
+.nav{display:flex;gap:7px;overflow:auto;padding-bottom:12px}.nav button{white-space:nowrap;background:#21123d;color:#dac9f5;border:1px solid var(--line);padding:10px 13px;border-radius:999px}.nav button.active{background:linear-gradient(135deg,#ff9be5,#9a7bff);color:#1b0a33;font-weight:800}
+.page{display:none}.page.active{display:block}.card{background:linear-gradient(180deg,rgba(32,18,60,.98),rgba(20,11,40,.98));border:1px solid var(--line);border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 12px 35px #0006}
+h1,h2,h3{margin-top:0}h1{font-size:28px;color:var(--gold)}h2{font-size:20px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:16px;border:1px solid var(--line);border-radius:16px;background:#150d2b}.stat strong{display:block;font-size:25px;color:var(--gold);margin-top:4px}.btn{width:100%;padding:13px 15px;border-radius:13px;background:linear-gradient(135deg,#ff9be5,#9a7bff);color:#1b0a33;font-weight:900}.btn.secondary{background:#261644;color:#f6e6ff;border:1px solid #5a3a8c}.btn.danger{background:#321212;color:#ffdede;border:1px solid #703030}.row{display:flex;gap:10px;align-items:center}.row>*{flex:1}input,select{width:100%;padding:13px;border-radius:12px;border:1px solid #5a3a8c;background:#0b0618;color:#fff}.mission{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #35205c}.mission:last-child{border:0}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#2d1850;color:#ffb3f0;font-size:12px}.hidden{display:none!important}.center{text-align:center}.qrbox{background:white;padding:15px;border-radius:15px;display:inline-block;margin:15px auto}.code{font-family:monospace;letter-spacing:2px;color:#ffb3f0;font-size:18px}.status{padding:12px;border-radius:12px;background:#22133f;margin-top:12px}.ok{border:1px solid #247b4c;color:#bff4d3}.bad{border:1px solid #7b2929;color:#ffd0d0}.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}.login .card{width:min(420px,100%)}.logo{text-align:center;font-size:60px}.tiny{font-size:12px;color:#a898c7}.list{display:grid;gap:9px}.rank{display:flex;justify-content:space-between;padding:12px;border-radius:12px;background:#170d30;border:1px solid #35205c}.camera{overflow:hidden;border-radius:15px;background:#000}.reward{font-size:20px;color:#ffb3f0;font-weight:900;line-height:1.7}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#ff9be5;color:#1b0a33;padding:12px 17px;border-radius:999px;font-weight:900;display:none;z-index:10}
+
+body{background:radial-gradient(circle at 15% -10%,#6a1b9a 0,transparent 45%),radial-gradient(circle at 90% 0,#00acc1 0,transparent 35%),#0d0720}
+h1,.brand b{background:linear-gradient(90deg,#ff7ad9,#b388ff,#4dd0e1,#ff7ad9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.card{box-shadow:0 12px 35px #0006,0 0 22px #b388ff33,inset 0 3px 0 #ff7ad9}
+.stat{border-radius:16px}.egg{filter:drop-shadow(0 0 10px #ff7ad9)}
+@media(max-width:520px){.grid{grid-template-columns:1fr 1fr}.app{padding-left:11px;padding-right:11px}}
+</style>
+</head>
+<body>
+
+<div id="login" class="login">
+ <div class="card">
+  <div class="logo">🦄</div>
+  <h1 class="center">Gangue do Unicórnio</h1>
+  <p class="center muted">MEXEU COM NOIS, TOMA CHIFRADA!</p>
+  <label>Apelido</label><input id="loginName" placeholder="Seu apelido" maxlength="20">
+  <div style="height:9px"></div>
+  <label>PIN</label><input id="loginPin" type="password" inputmode="numeric" placeholder="PIN de 4+ dígitos">
+  <div style="height:12px"></div>
+  <button class="btn" onclick="login()">ENTRAR</button>
+  <p class="tiny center">Protótipo 100% HTML: os dados ficam neste navegador.</p>
+ </div>
+</div>
+
+<div id="app" class="app hidden">
+<header>
+ <div class="brand"><span class="egg">🦄</span><div><b>GANGUE DO UNICÓRNIO</b><small id="hello">Jogador</small></div></div>
+ <button class="nav" style="border:0;background:none" onclick="logout()">🚪</button>
+</header>
+
+<div class="nav">
+ <button class="active" data-page="home" onclick="go('home')">🏠 Início</button>
+ <button data-page="missions" onclick="go('missions')">🎯 Missões</button>
+ <button data-page="scan" onclick="go('scan')">📷 QR</button>
+ <button data-page="ranking" onclick="go('ranking')">🏆 Ranking</button>
+ <button id="admTab" data-page="admin" onclick="go('admin')">👑 ADM</button>
+</div>
+
+<section id="home" class="page active">
+ <div class="card"><h1>Olá, <span id="name"></span>! 🦄</h1><p class="muted">Colecione XP, UniCoins e recompensas.</p>
+  <div class="grid"><div class="stat">⭐ XP<strong id="xp">0</strong></div><div class="stat">🦄 UniCoins<strong id="coins">0</strong></div></div>
+ </div>
+ <div class="card"><h2>🎖️ Seu rank</h2><div id="rank" style="font-size:24px;color:#ffb3f0;font-weight:900"></div><p class="muted" id="next"></p></div>
+ <div class="card"><h2>🎁 Resgate rápido</h2><button class="btn" onclick="go('scan')">📷 ESCANEAR RECOMPENSA</button></div>
+</section>
+
+<section id="missions" class="page">
+ <div class="card"><h1>🎯 Missões</h1><div id="missionList"></div></div>
+</section>
+
+<section id="scan" class="page">
+ <div class="card center"><h1>📷 Caça aos Unicórnios</h1><p class="muted">Aponte a câmera para um QR de recompensa.</p>
+  <div id="reader" class="camera"></div>
+  <div id="scanStatus" class="status">Aguardando QR...</div>
+  <div id="scanReward" class="hidden"></div>
+ </div>
+</section>
+
+<section id="ranking" class="page">
+ <div class="card"><h1>🏆 Ranking</h1><div id="rankingList" class="list"></div></div>
+</section>
+
+<section id="admin" class="page">
+ <div class="card"><h1>👑 Painel ADM</h1><p class="muted">Gere QR codes de recompensa para os jogadores.</p>
+  <label>Recompensa</label>
+  <select id="rewardSelect">
+   <option value="150|15">150 XP + 15 UniCoins</option>
+   <option value="300|30">300 XP + 30 UniCoins</option>
+   <option value="500|50">500 XP + 50 UniCoins</option>
+   <option value="750|75">750 XP + 75 UniCoins</option>
+   <option value="1500|150">1.500 XP + 150 UniCoins</option>
+   <option value="3000|300">3.000 XP + 300 UniCoins</option>
+   <option value="5000|500">5.000 XP + 500 UniCoins — LENDÁRIO</option>
+  </select>
+  <div style="height:12px"></div>
+  <button class="btn" onclick="generateQR()">🔲 GERAR QR</button>
+  <div id="generated" class="center hidden">
+   <div id="qrcode" class="qrbox"></div>
+   <div class="code" id="generatedCode"></div>
+   <p class="tiny">Este QR contém somente o código da recompensa.</p>
+   <button class="btn secondary" onclick="downloadQR()">⬇️ SALVAR QR</button>
+  </div>
+ </div>
+ <div class="card"><h2>📦 QR gerados neste aparelho</h2><div id="qrHistory" class="list"></div></div>
+</section>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const KEY='GDO_HTML_V1';
+let db=JSON.parse(localStorage.getItem(KEY)||'null');
+if(!db) db={users:{},qrs:{},missions:[
+ {id:'m1',title:'Primeiro acesso',desc:'Entre na Gangue do Unicórnio pela primeira vez.',xp:50,coins:5},
+ {id:'m2',title:'Caça ao unicórnio',desc:'Encontre um QR de recompensa.',xp:100,coins:10},
+ {id:'m3',title:'Missão relâmpago',desc:'Complete uma missão definida pelo ADM.',xp:150,coins:15}
+]};
+let current=null, scanner=null, scanLocked=false;
+
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function toast(t){let x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',2200)}
+function rankFor(xp){
+ let r=[['Potrinho',0],['Unicórnio Novato',100],['Unicórnio Rebelde',300],['Unicórnio de Elite',750],['Unicórnio Supremo',1500],['Lenda do Arco-Íris',3000]];
+ let cur=r[0],next=null; for(let i=0;i<r.length;i++){if(xp>=r[i][1])cur=r[i];else{next=r[i];break}}
+ return {name:cur[0],next}
+}
+function login(){
+ let n=document.getElementById('loginName').value.trim(), p=document.getElementById('loginPin').value;
+ if(!n||p.length<4){alert('Informe apelido e PIN de pelo menos 4 dígitos.');return}
+ let id=n.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,20);
+ if(!db.users[id]) db.users[id]={id,name:n,pin:p,xp:0,coins:0,completed:[],role:(Object.keys(db.users).length===0?'ADM':'PLAYER')};
+ else if(db.users[id].pin!==p){alert('PIN incorreto.');return}
+ current=db.users[id];save();showApp();completeMission('m1',false)
+}
+function showApp(){
+ document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');
+ document.getElementById('name').textContent=current.name;document.getElementById('hello').textContent=current.role==='ADM'?'👑 '+current.name:current.name;
+ document.getElementById('admTab').classList.toggle('hidden',current.role!=='ADM');refresh();go('home')
+}
+function logout(){stopScanner();current=null;document.getElementById('app').classList.add('hidden');document.getElementById('login').classList.remove('hidden')}
+function refresh(){
+ document.getElementById('xp').textContent=current.xp;document.getElementById('coins').textContent=current.coins;
+ let r=rankFor(current.xp);document.getElementById('rank').textContent=r.name;
+ document.getElementById('next').textContent=r.next?`Próximo: ${r.next[0]} em ${r.next[1]-current.xp} XP`:'Você chegou ao rank máximo!';
+ renderMissions();renderRanking();renderHistory();
+}
+function go(id){
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+ if(id==='scan')startScanner();else stopScanner()
+}
+function completeMission(id,show=true){
+ if(current.completed.includes(id))return;
+ let m=db.missions.find(x=>x.id===id);if(!m)return;
+ current.completed.push(id);current.xp+=m.xp;current.coins+=m.coins;save();refresh();if(show)toast(`+${m.xp} XP e +${m.coins} UniCoins!`)
+}
+function renderMissions(){
+ let el=document.getElementById('missionList');el.innerHTML='';
+ db.missions.forEach(m=>{
+  let done=current.completed.includes(m.id);
+  let d=document.createElement('div');d.className='mission';
+  d.innerHTML=`<div><b>${m.title}</b><br><span class="muted">${m.desc}</span><br><span class="pill">+${m.xp} XP · +${m.coins} 🦄</span></div><div>${done?'✅ CONCLUÍDA':`<button class="btn" style="width:auto" onclick="completeMission('${m.id}')">FAZER</button>`}</div>`;
+  el.appendChild(d)
+ })
+}
+function renderRanking(){
+ let arr=Object.values(db.users).sort((a,b)=>b.xp-a.xp);let el=document.getElementById('rankingList');el.innerHTML='';
+ arr.forEach((u,i)=>{let r=rankFor(u.xp);let d=document.createElement('div');d.className='rank';d.innerHTML=`<b>#${i+1} ${u.name}</b><span>${u.xp} XP · ${r.name}</span>`;el.appendChild(d)})
+}
+function makeCode(){return 'GDU-'+cryptoRandom(4)+'-'+cryptoRandom(4)}
+function cryptoRandom(n){let chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',out='';if(window.crypto&&crypto.getRandomValues){let a=new Uint32Array(n);crypto.getRandomValues(a);for(let i=0;i<n;i++)out+=chars[a[i]%chars.length]}else for(let i=0;i<n;i++)out+=chars[Math.floor(Math.random()*chars.length)];return out}
+function generateQR(){
+ let [xp,coins]=document.getElementById('rewardSelect').value.split('|').map(Number),code=makeCode();
+ db.qrs[code]={code,xp,coins,status:'AVAILABLE',createdBy:current.id,createdAt:new Date().toISOString(),usedBy:null,usedAt:null};
+ save();
+ document.getElementById('generated').classList.remove('hidden');document.getElementById('generatedCode').textContent=code;
+ document.getElementById('qrcode').innerHTML='';
+ new QRCode(document.getElementById('qrcode'),{text:code,width:250,height:250,correctLevel:QRCode.CorrectLevel.H});
+ renderHistory();toast('QR criado!')
+}
+function downloadQR(){
+ let img=document.querySelector('#qrcode img');if(!img){alert('Gere um QR primeiro.');return}
+ let a=document.createElement('a');a.href=img.src;a.download='gangue-do-unicornio-'+document.getElementById('generatedCode').textContent+'.png';a.click()
+}
+function renderHistory(){
+ let el=document.getElementById('qrHistory');if(!el)return;el.innerHTML='';
+ Object.values(db.qrs).slice(-20).reverse().forEach(q=>{let d=document.createElement('div');d.className='rank';d.innerHTML=`<div><b>${q.code}</b><br><span class="muted">+${q.xp} XP · +${q.coins} 🦄</span></div><span>${q.status==='USED'?'🔴 USADO':'🟢 DISPONÍVEL'}</span>`;el.appendChild(d)})
+}
+function startScanner(){
+ if(scanner||scanLocked)return;
+ document.getElementById('scanStatus').textContent='📷 Aponte a câmera para o QR...';
+ scanner=new Html5QrcodeScanner('reader',{fps:10,qrbox:{width:250,height:250},rememberLastUsedCamera:true},false);
+ scanner.render(onScan,()=>{});
+}
+function stopScanner(){
+ if(!scanner)return;
+ try{scanner.clear()}catch(e){}
+ scanner=null;scanLocked=false;
+}
+function onScan(code){
+ if(scanLocked)return;scanLocked=true;
+ let q=db.qrs[code];
+ if(!q){document.getElementById('scanStatus').textContent='❌ QR inválido ou desconhecido.';scanLocked=false;return}
+ if(q.status==='USED'){document.getElementById('scanStatus').textContent='❌ Este QR já foi usado.';scanLocked=false;return}
+ let box=document.getElementById('scanReward');box.classList.remove('hidden');
+ box.innerHTML=`<div class="card"><div class="reward">🎉 RECOMPENSA ENCONTRADA!<br>⭐ +${q.xp} XP<br>🦄 +${q.coins} UniCoins</div><button class="btn" onclick="redeem('${code}')">RESGATAR AGORA</button></div>`;
+ document.getElementById('scanStatus').textContent='✅ QR válido!';
+}
+function redeem(code){
+ let q=db.qrs[code];
+ if(!q||q.status==='USED'){document.getElementById('scanStatus').textContent='❌ Recompensa indisponível.';return}
+ q.status='USED';q.usedBy=current.id;q.usedAt=new Date().toISOString();
+ current.xp+=q.xp;current.coins+=q.coins;save();refresh();
+ document.getElementById('scanReward').innerHTML=`<div class="card center"><div class="reward">🎉 RESGATADO!<br>⭐ +${q.xp} XP<br>🦄 +${q.coins} UniCoins</div><p class="muted">A recompensa foi adicionada ao seu perfil.</p></div>`;
+ document.getElementById('scanStatus').textContent='🏆 Recompensa recebida!';
+ scanLocked=false;toast('Recompensa adicionada!')
+}
+(function init(){
+ let session=localStorage.getItem('GDO_SESSION');if(session&&db.users[session]){current=db.users[session];showApp()}
+ document.getElementById('loginPin').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+})();
+function saveSession(){if(current)localStorage.setItem('GDO_SESSION',current.id)}
+const oldShow=showApp; showApp=function(){oldShow();saveSession()}
+const oldLogout=logout; logout=function(){localStorage.removeItem('GDO_SESSION');oldLogout()}
+</script>
+</body>
+</html>
