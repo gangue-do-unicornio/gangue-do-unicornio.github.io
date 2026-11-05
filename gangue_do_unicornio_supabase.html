@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#241447">
+<title>Gangue do Unicórnio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<style>
+:root{
+--bg:#241447;--surf:#382066;--surf2:#51318B;--edge:#160C31;
+--primary:#F5A9D6;--primary-d:#C96AA9;--white:#FFF9FF;--soft:#D8C9F2;
+--mint:#7BE6D1;--red:#FF7B9B;--blue:#8ED8FF;--gold:#FFD76A;
+--disp:'Lilita One','Arial Rounded MT Bold',system-ui,sans-serif
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--edge)}
+body{font:500 15px/1.4 Rubik,system-ui,sans-serif;color:var(--white)}
+button,input{font:inherit;color:inherit}button{border:0;cursor:pointer;background:none}
+:focus-visible{outline:3px solid var(--yolk);outline-offset:2px}
+.hidden{display:none!important}.muted{color:var(--soft)}.center{text-align:center}
+h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;letter-spacing:.2px}
+h1{font-size:30px}h2{font-size:22px}
+.shell{max-width:480px;min-height:100dvh;margin:auto;background:var(--bg);position:relative}
+/* login */
+.login{min-height:100dvh;padding:calc(env(safe-area-inset-top) + 40px) 24px 32px;display:flex;flex-direction:column;justify-content:center;gap:22px}
+.login .logo{width:132px;height:132px;margin:0 auto;animation:wob 1.1s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes wob{0%{transform:scale(.3) rotate(-25deg);opacity:0}100%{transform:none;opacity:1}}
+.wordmark{font:400 46px/.95 var(--disp);text-align:center;color:var(--yolk);text-shadow:0 4px 0 var(--edge)}
+.sticker{display:block;width:max-content;max-width:100%;margin:-8px auto 0;background:var(--white);color:var(--edge);font:400 15px var(--disp);padding:7px 14px;border-radius:10px;transform:rotate(-2.5deg);box-shadow:0 3px 0 var(--edge)}
+.field{display:grid;gap:6px}.field span{font-weight:600;color:var(--soft);font-size:14px}
+input[type=text],input[type=password],input[type=number],select{width:100%;height:54px;padding:0 16px;border-radius:16px;border:3px solid var(--edge);background:var(--surf);font-size:17px}
+input::placeholder{color:#8F84D6}
+.msg{min-height:20px;font-size:14px;color:var(--soft)}.msg.bad{color:var(--red)}
+.btn{width:100%;min-height:54px;padding:0 20px;border-radius:16px;background:var(--yolk);color:#2A1D00;font:400 19px var(--disp);box-shadow:0 5px 0 var(--yolk-d);transition:transform .08s,box-shadow .08s;display:flex;align-items:center;justify-content:center;gap:9px}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--yolk-d)}
+.btn.sec{background:var(--surf2);color:var(--white);box-shadow:0 5px 0 var(--edge)}.btn.sec:active{box-shadow:0 1px 0 var(--edge)}
+.btn.sm{width:auto;min-height:40px;font-size:15px;padding:0 16px;box-shadow:0 3px 0 var(--yolk-d)}
+.btn.out{background:transparent;color:var(--red);box-shadow:inset 0 0 0 3px var(--red)}
+svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* app */
+.top{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 14px) 16px 8px}
+.top .who{flex:1;min-width:0}.top .who b{display:block;font:400 19px var(--disp);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .who small{color:var(--soft)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--edge);border-radius:999px;padding:6px 12px 6px 8px;font:400 16px var(--disp)}
+.chip i{width:20px;height:20px;border-radius:50%;background:var(--yolk);display:grid;place-items:center;font:400 11px var(--disp);color:#2A1D00;font-style:normal}
+.chip i.x{background:var(--chama)}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:400 22px var(--disp);color:#2A1D00;border:3px solid var(--edge);flex:none}
+main{padding:8px 16px calc(112px + env(safe-area-inset-bottom))}
+.page{display:none}.page.on{display:block;animation:in .18s ease-out}
+@keyframes in{from{opacity:0}to{opacity:1}}
+.card{background:var(--surf);border-radius:22px;padding:16px;margin:0 0 14px;box-shadow:0 4px 0 var(--edge)}
+.card h2{margin-bottom:10px}
+.hero{background:var(--yolk);color:#2A1D00;box-shadow:0 5px 0 var(--yolk-d);display:grid;gap:12px}
+.hero .rk{font:400 34px/1 var(--disp)}.hero small{font-weight:600;opacity:.75}
+.bar{height:16px;border-radius:99px;background:rgba(42,29,0,.2);overflow:hidden}
+.bar b{display:block;height:100%;border-radius:99px;background:#2A1D00;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.card .bar{background:var(--edge);height:12px}.card .bar b{background:var(--mint)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.stat{background:var(--surf);border-radius:20px;padding:14px;box-shadow:0 4px 0 var(--edge)}
+.stat span{color:var(--soft);font-size:14px}.stat strong{display:block;font:400 32px/1.1 var(--disp)}
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:2px solid var(--edge)}.row:first-of-type{border-top:0}
+.row>div:nth-child(2){flex:1;min-width:0}.row b{display:block;font-weight:600}.row small{color:var(--soft)}
+.ico{width:46px;height:46px;border-radius:14px;background:var(--edge);display:grid;place-items:center;color:var(--yolk);flex:none}
+.ico.done{background:var(--mint);color:#06301D}
+.pill{background:var(--edge);border-radius:99px;padding:3px 10px;font-size:13px;font-weight:600;color:var(--yolk);white-space:nowrap}
+.pos{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:400 18px var(--disp);background:var(--edge);flex:none}
+.p1{background:var(--yolk);color:#2A1D00}.p2{background:#D9DDF0;color:#1D1350}.p3{background:#E08A4C;color:#2A1200}
+.me{background:var(--surf2);margin:0 -10px;padding:12px 10px;border-radius:16px;border-top-color:transparent}
+.empty{padding:18px 6px;text-align:center;color:var(--soft)}
+/* tab bar */
+.tabs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(480px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:var(--edge);padding:8px 6px calc(8px + env(safe-area-inset-bottom));border-radius:24px 24px 0 0;z-index:5}
+.tabs button{display:grid;justify-items:center;gap:2px;padding:6px 0;color:#8F84D6;font-size:12px;font-weight:600;border-radius:14px}
+.tabs button.on{color:var(--yolk)}
+.tabs .go{position:relative}.tabs .go span.c{width:64px;height:64px;margin-top:-34px;border-radius:50%;background:var(--yolk);color:#2A1D00;display:grid;place-items:center;border:5px solid var(--edge);box-shadow:0 4px 0 var(--yolk-d)}
+.tabs .go.on span.c{background:var(--white)}.tabs .go{color:var(--white)}
+/* scan */
+.cam{position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;background:#150E3B;border:4px solid var(--edge)}
+#reader{width:100%;height:100%}#reader video{width:100%!important;height:100%!important;object-fit:cover}
+.frame{position:absolute;inset:14%;pointer-events:none}
+.frame i{position:absolute;width:34px;height:34px;border:5px solid var(--yolk)}
+.frame i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0;border-radius:14px 0 0 0}.frame i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0;border-radius:0 14px 0 0}
+.frame i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 14px}.frame i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 14px 0}
+.state{margin:14px 0;padding:12px 14px;border-radius:14px;background:var(--surf);font-weight:600;text-align:center}
+.state.bad{background:#5A2340;color:#FFD3D9}.state.ok{background:#1E5A4A;color:#C9FFE8}
+/* sheet */
+.veil{position:fixed;inset:0;background:rgba(15,8,45,.65);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:min(480px,100%);background:var(--surf);border-radius:28px 28px 0 0;padding:14px 20px calc(24px + env(safe-area-inset-bottom));animation:up .28s cubic-bezier(.2,1.2,.4,1);text-align:center;display:grid;gap:14px}
+@keyframes up{from{transform:translateY(100%)}}
+.sheet:before{content:"";width:44px;height:5px;border-radius:9px;background:var(--surf2);justify-self:center}
+.big{font:400 54px/1 var(--disp);color:var(--yolk)}
+.gain{display:flex;justify-content:center;gap:12px}.gain div{background:var(--edge);border-radius:18px;padding:12px 18px;min-width:120px}.gain strong{display:block;font:400 30px var(--disp)}.gain span{color:var(--soft);font-size:13px}
+/* admin */
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tier{background:var(--edge);border-radius:16px;padding:12px;text-align:left;border:3px solid transparent}
+.tier b{display:block;font:400 18px var(--disp)}.tier small{color:var(--soft)}
+.tier[aria-pressed=true]{border-color:var(--yolk);background:var(--surf2)}
+.tier.leg{grid-column:1/-1}.tier.leg b{color:var(--chama)}
+.ticket{background:var(--white);color:var(--edge);border-radius:22px;padding:18px;text-align:center;display:grid;gap:8px;justify-items:center;margin-bottom:14px;box-shadow:0 5px 0 var(--edge)}
+.ticket #qrcode{padding:6px;line-height:0}.ticket .code{font:400 24px var(--disp);letter-spacing:3px}.ticket small{color:#5B4FA0}
+.sheet{max-height:92dvh;overflow:auto}.frm{display:grid;gap:12px;text-align:left}.frm h2{text-align:center}
+.imgpick{display:flex;align-items:center;gap:12px}.imgpick .ico{width:64px;height:64px}
+.ico{overflow:hidden}.ico img,.item .pic img{width:100%;height:100%;object-fit:cover}
+.shop{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item{background:var(--surf2);border-radius:20px;overflow:hidden;box-shadow:0 4px 0 var(--edge);display:grid;grid-template-rows:auto 1fr}
+.item .pic{aspect-ratio:1;background:var(--edge);display:grid;place-items:center;color:var(--yolk)}.item .pic svg{width:44px;height:44px}
+.item .bd{padding:10px 12px 12px;display:grid;gap:6px;align-content:start}.item b{font:400 17px var(--disp)}.item small{color:var(--soft)}
+.item .btn{width:100%}.btn:disabled{opacity:.45;box-shadow:none;cursor:default}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 14px);transform:translate(-50%,-140%);background:var(--white);color:var(--edge);padding:12px 18px;border-radius:14px;font-weight:600;z-index:30;transition:transform .3s cubic-bezier(.2,1.3,.4,1);box-shadow:0 4px 0 var(--edge);max-width:90vw}
+.toast.on{transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== TEMA GANGUE DO UNICÓRNIO ===== */
+body{
+background:radial-gradient(circle at 20% 10%,rgba(245,169,214,.13),transparent 28%),
+radial-gradient(circle at 85% 20%,rgba(142,216,255,.12),transparent 30%),
+linear-gradient(145deg,#120824 0%,#241447 48%,#190C35 100%);
+}
+.shell{background:radial-gradient(circle at 85% 5%,rgba(185,149,255,.10),transparent 25%),linear-gradient(180deg,#241447 0%,#20113E 100%)}
+.login{position:relative;overflow:hidden}
+.login:before,.login:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.login:before{width:230px;height:230px;right:-110px;top:-80px;background:radial-gradient(circle,rgba(245,169,214,.25),transparent 68%)}
+.login:after{width:260px;height:260px;left:-150px;bottom:-100px;background:radial-gradient(circle,rgba(142,216,255,.18),transparent 68%)}
+.unicorn-logo{filter:drop-shadow(0 12px 18px rgba(245,169,214,.20))}
+.wordmark{color:#F5A9D6;text-shadow:0 4px 0 #160C31,0 0 22px rgba(245,169,214,.22);letter-spacing:.5px}
+.sticker{background:linear-gradient(135deg,#FFF9FF,#F0E4FF);color:#241447;border:2px solid #F5A9D6}
+.btn{background:linear-gradient(135deg,#F5A9D6,#B995FF);color:#241447;box-shadow:0 5px 0 #9B5E9D,0 0 22px rgba(245,169,214,.10)}
+.btn.sec{background:linear-gradient(135deg,#51318B,#432676);color:#FFF9FF}
+.btn.out{color:#FF7B9B;box-shadow:inset 0 0 0 3px #FF7B9B}
+input[type=text],input[type=password],input[type=number],select{background:rgba(56,32,102,.92);border-color:#160C31}
+input:focus,select:focus{border-color:#F5A9D6;box-shadow:0 0 0 4px rgba(245,169,214,.12);outline:none}
+.card,.stat{background:linear-gradient(145deg,#382066,#302052);border:1px solid rgba(245,169,214,.10)}
+.hero{background:linear-gradient(135deg,#F5A9D6 0%,#B995FF 55%,#8ED8FF 100%);color:#241447;box-shadow:0 5px 0 #8A5A9E,0 12px 30px rgba(185,149,255,.10)}
+.hero .bar b{background:#241447}
+.card .bar b{background:linear-gradient(90deg,#F5A9D6,#B995FF,#8ED8FF)}
+.ico{background:#21123F;color:#F5A9D6;border:1px solid rgba(245,169,214,.10)}
+.ico.done{background:#244F52;color:#7BE6D1}
+.pill{color:#F5A9D6}
+.pos.p1{background:#FFD76A;color:#241447}.pos.p2{background:#D9DDF0;color:#241447}.pos.p3{background:#D99773;color:#241447}
+.tabs{background:rgba(22,12,49,.96);border-top:1px solid rgba(245,169,214,.16);box-shadow:0 -12px 30px rgba(0,0,0,.16);backdrop-filter:blur(12px)}
+.tabs button.on{color:#F5A9D6}
+.tabs .go span.c{background:linear-gradient(135deg,#F5A9D6,#B995FF);color:#241447;border-color:#160C31;box-shadow:0 4px 0 #9B5E9D,0 0 24px rgba(245,169,214,.18)}
+.tabs .go.on span.c{background:#FFF9FF}
+.frame i{border-color:#F5A9D6;filter:drop-shadow(0 0 8px rgba(245,169,214,.4))}
+.ticket{background:linear-gradient(145deg,#FFF9FF,#F1E9FF);border:2px solid #F5A9D6}
+.ticket:before{content:"";display:block;width:84px;height:84px;background:linear-gradient(135deg,#F5A9D6,#B995FF,#8ED8FF);clip-path:polygon(50% 0,61% 34%,96% 38%,69% 59%,78% 94%,50% 72%,22% 94%,31% 59%,4% 38%,39% 34%);opacity:.9}
+.tier[aria-pressed=true]{border-color:#F5A9D6;background:#51318B}.tier.leg b{color:#FFD76A}
+.shop .item{background:linear-gradient(145deg,#51318B,#39226A);border:1px solid rgba(245,169,214,.10)}
+.item .pic{background:#21123F}.big{color:#F5A9D6}
+.toast{background:#FFF9FF;color:#241447;border:2px solid #F5A9D6}
+::selection{background:#F5A9D6;color:#241447}
+
+</style>
+</head>
+<body>
+<div class="shell">
+
+<section id="login" class="login">
+ <svg class="logo unicorn-logo" viewBox="0 0 160 160" aria-label="Logo da Gangue do Unicórnio" role="img">
+<defs>
+<linearGradient id="uBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF9FF"/><stop offset="1" stop-color="#EAD9FF"/></linearGradient>
+<linearGradient id="uMane" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5A9D6"/><stop offset=".5" stop-color="#B995FF"/><stop offset="1" stop-color="#8ED8FF"/></linearGradient>
+<linearGradient id="uHorn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD76A"/><stop offset="1" stop-color="#F5A9D6"/></linearGradient>
+</defs>
+<circle cx="80" cy="80" r="73" fill="#2D1955" stroke="#F5A9D6" stroke-width="5"/>
+<circle cx="80" cy="80" r="64" fill="none" stroke="#8ED8FF" stroke-width="2" opacity=".6"/>
+<path d="M48 76C34 60 42 39 59 43C57 27 76 25 83 40C91 25 111 31 106 48C126 44 136 62 119 74L111 91L49 92Z" fill="url(#uMane)" stroke="#160C31" stroke-width="4"/>
+<path d="M52 66C59 48 86 43 105 52C121 60 126 78 119 96C111 116 94 126 73 120C53 115 43 97 47 81Z" fill="url(#uBody)" stroke="#160C31" stroke-width="4"/>
+<path d="M58 57L52 35L72 51Z" fill="#F5A9D6" stroke="#160C31" stroke-width="4"/>
+<path d="M101 52L112 34L117 61Z" fill="#B995FF" stroke="#160C31" stroke-width="4"/>
+<path d="M84 53L91 20L105 52Z" fill="url(#uHorn)" stroke="#160C31" stroke-width="4"/>
+<path d="M88 43L100 47M90 34L97 38M92 27L95 29" fill="none" stroke="#FFF9FF" stroke-width="2"/>
+<ellipse cx="70" cy="76" rx="6" ry="9" fill="#160C31"/><ellipse cx="103" cy="76" rx="6" ry="9" fill="#160C31"/>
+<circle cx="72" cy="73" r="2" fill="#FFF9FF"/><circle cx="105" cy="73" r="2" fill="#FFF9FF"/>
+<path d="M75 94Q87 102 99 94" fill="none" stroke="#C96AA9" stroke-width="4" stroke-linecap="round"/>
+<circle cx="78" cy="91" r="3" fill="#F5A9D6"/><circle cx="96" cy="91" r="3" fill="#F5A9D6"/>
+<path d="M127 105l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#FFD76A"/>
+</svg>
+ <div><div class="wordmark" id="lgBrand"></div><span class="sticker" id="lgSlogan"></span></div>
+ <div>
+  <label class="field"><span>Apelido</span><input id="loginName" type="text" placeholder="Como a gangue te chama?" maxlength="20" autocomplete="username" autocapitalize="words"></label>
+  <div style="height:12px"></div>
+  <label class="field"><span>PIN</span><input id="loginPin" type="password" inputmode="numeric" placeholder="4 números ou mais" autocomplete="current-password"></label>
+  <div class="msg" id="loginMsg" role="status"></div>
+  <button class="btn" id="loginBtn">Entrar</button>
+ </div>
+ <p class="muted center" id="lgNote" style="font-size:13px;margin:0">Seus dados ficam salvos neste aparelho.</p>
+</section>
+
+<div id="app" class="hidden">
+ <header class="top">
+  <button class="av" id="avTop" aria-label="Abrir perfil"></button>
+  <div class="who"><b id="hName"></b><small id="hRank"></small></div>
+  <span class="chip"><i>XP</i><span id="cXp">0</span></span>
+  <span class="chip"><i class="x">O</i><span id="cCoins">0</span></span>
+ </header>
+ <main>
+  <section id="home" class="page">
+   <div class="card hero">
+    <div><small>Seu rank</small><div class="rk" id="rank"></div></div>
+    <div class="bar"><b id="rankBar" style="width:0"></b></div>
+    <small id="next"></small>
+   </div>
+   <div class="pair"><div class="stat"><span>XP total</span><strong id="xp">0</strong></div><div class="stat"><span id="coinLbl">Moedas</span><strong id="coins">0</strong></div></div>
+   <button class="btn" data-go="scan" style="margin-bottom:14px"><svg class="i"><use href="#i-scan"/></svg>Escanear recompensa</button>
+   <button class="btn sec" data-go="ranking" style="margin-bottom:14px"><svg class="i"><use href="#i-trophy"/></svg>Ver ranking</button>
+   <div class="card"><h2>Próxima missão</h2><div id="nextMission"></div></div>
+   <div class="card"><h2>Atividade recente</h2><div id="activity"></div></div>
+  </section>
+  <section id="missions" class="page"><div class="card"><h2>Missões</h2><div id="missionList"></div></div></section>
+  <section id="shop" class="page"><div class="card"><h2>Loja</h2><div class="muted" id="shopSub" style="margin:-4px 0 12px"></div><div id="shopList" class="shop"></div></div><div class="card"><h2>Meus itens</h2><div id="myItems"></div></div></section>
+  <section id="scan" class="page">
+   <div class="cam"><div id="reader"></div><div class="frame"><i></i><i></i><i></i><i></i></div></div>
+   <div id="scanState" class="state">Aponte a câmera para um QR de recompensa.</div>
+   <label class="btn sec" style="cursor:pointer"><svg class="i"><use href="#i-image"/></svg>Escolher uma imagem<input id="file" type="file" accept="image/*" hidden></label>
+   <div id="fileReader" hidden></div>
+  </section>
+  <section id="ranking" class="page"><div class="card"><h2>Ranking da gangue</h2><div id="rankingList"></div></div></section>
+  <section id="admin" class="page">
+   <div class="card"><h2>Gerar recompensa</h2><div class="tiers" id="tiers"></div><button class="btn" id="genBtn"><svg class="i"><use href="#i-scan"/></svg>Gerar QR</button></div>
+   <div id="ticketBox"></div>
+   <div class="card"><h2>QR gerados</h2><div id="qrHistory"></div></div>
+   <div class="card"><h2>Missões</h2><button class="btn" id="newM">Nova missão</button><div id="admM"></div></div>
+   <div class="card"><h2>Itens da loja</h2><button class="btn" id="newI">Novo item</button><div id="admI"></div></div>
+   <div class="card"><h2>Pedidos para entregar</h2><div id="admO"></div></div>
+  </section>
+  <section id="profile" class="page">
+   <div class="card center" style="display:grid;justify-items:center;gap:8px"><div class="av" id="avBig" style="width:92px;height:92px;font-size:44px"></div><h1 id="pName"></h1><span class="pill" id="pRole"></span><p class="muted" id="pInfo" style="margin:4px 0 0"></p></div>
+   <button class="btn out" id="logoutBtn">Sair da conta</button>
+  </section>
+ </main>
+ <nav class="tabs" id="tabs" aria-label="Navegação"></nav>
+</div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div id="sheetHost"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".6"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3M4 12h16"/></symbol>
+<symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 01-8 0V4zM8 6H4v1a4 4 0 004 4M16 6h4v1a4 4 0 01-4 4M12 14v4M8 20h8"/></symbol>
+<symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5L3 8z"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></symbol>
+<symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8zM9 8V6a3 3 0 016 0v2"/></symbol>
+</defs></svg>
+
+<script>
+const CFG={brand:'Gangue do Unicórnio',slogan:'MEXEU COM NOIS, TOMA CHIFRADA!',coin:'ChifreCoins',
+ ranks:[['Pintinho',0],['Unicórnio Novato',100],['Unicórnio Brilhante',300],['Cavaleiro de Elite',750],['Unicórnio Supremo',1500],['Lenda do Arco-Íris',3000]],
+ tiers:[['Comum',150,15],['Boa',300,30],['Rara',500,50],['Épica',750,75],['Mítica',1500,150],['Suprema',3000,300],['Lendária',5000,500]],
+ missions:[
+  {id:'m1',t:'Primeiro voo',d:'Entre na gangue pela primeira vez.',xp:50,c:5,goal:1,prog:u=>1},
+  {id:'m2',t:'Caça às estrelas',d:'Resgate sua primeira recompensa.',xp:100,c:10,goal:1,prog:u=>u.redeemed.length},
+  {id:'m3',t:'Caçador de estrelas',d:'Resgate 3 recompensas.',xp:150,c:15,goal:3,prog:u=>u.redeemed.length}],
+ salt:'gdu-v3'};
+/* ===== SUPABASE (opcional) =====
+ 1) No Supabase: SQL Editor > rode:
+    create table gdo(kind text, id text, data jsonb not null, primary key(kind,id));
+    alter table gdo enable row level security;
+    create policy "gdo_all" on gdo for all using (true) with check (true);
+ 2) Cole abaixo a Project URL e a chave anon (Settings > API). Vazio = salva só neste aparelho. */
+const SB_URL='https://pmiodxyfnkgiimebnjna.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaW9keHlmbmtnaWltZWJuam5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MTM1MzgsImV4cCI6MjEwOTQ4OTUzOH0.nF510JgUQhr6VpGmvPi_KKva8PVw1HCeySXYfttZUD8';
+const KEY='GDU_HTML_V1',SESSION='GDO_SESSION',COLORS=['#FFC21A','#3DDC97','#FF8A2B','#FF6B7A','#7CC8FF','#E9A6FF'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ico=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
+const fmt=n=>Number(n).toLocaleString('pt-BR');
+let db=load(),current=null,sc=null,scQ=Promise.resolve(),locked=false,tier=0,tt;
+
+function load(){let d=null;try{d=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+ d=d&&typeof d==='object'?d:{};d.users=d.users||{};d.qrs=d.qrs||{};d.cm=d.cm||[];d.items=d.items||[];delete d.missions;
+ Object.values(d.users).forEach(u=>{u.completed=u.completed||[];u.redeemed=u.redeemed||[];u.log=u.log||[];u.inv=u.inv||[];u.joined=u.joined||Date.now()});return d}
+/* sync */
+const SB=!!(SB_URL&&SB_KEY);let snap={},inflight=0,first=true,ver=0,lp=0;
+const ents=d=>{const o={};Object.values(d.users).forEach(x=>o['u/'+x.id]=x);Object.values(d.qrs).forEach(x=>o['q/'+x.code]=x);d.cm.forEach(x=>o['m/'+x.id]=x);d.items.forEach(x=>o['i/'+x.id]=x);return o};
+const sb=(q,o={})=>fetch(SB_URL+'/rest/v1/gdo'+q,{...o,headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates',...o.headers}});
+function cache(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast('Não foi possível salvar neste aparelho.')}}
+function save(){ver++;cache();if(SB)push()}
+async function push(){if(!SB)return;const now=ents(db),up=[],del=[];
+ for(const k in now){const j=JSON.stringify(now[k]);if(snap[k]!==j){snap[k]=j;up.push({kind:k[0],id:k.slice(2),data:now[k]})}}
+ for(const k in snap)if(!(k in now)){delete snap[k];del.push(k)}
+ inflight++;try{
+  if(up.length){const r=await sb('',{method:'POST',body:JSON.stringify(up)});if(!r.ok)throw 0}
+  for(const k of del)await sb(`?kind=eq.${k[0]}&id=eq.${encodeURIComponent(k.slice(2))}`,{method:'DELETE'})
+ }catch(e){up.forEach(x=>delete snap[x.kind+'/'+x.id]);toast('Sem conexão com a nuvem. Vou tentar de novo.')}finally{inflight--}}
+async function pull(){if(!SB||inflight)return;const v=ver;
+ try{const r=await sb('?select=kind,id,data');if(!r.ok)throw 0;const rows=await r.json();if(v!==ver||inflight)return;
+  const n={users:{},qrs:{},cm:[],items:[]},s={};
+  rows.forEach(x=>{s[x.kind+'/'+x.id]=JSON.stringify(x.data);if(x.kind==='u')n.users[x.id]=x.data;else if(x.kind==='q')n.qrs[x.id]=x.data;else if(x.kind==='m')n.cm.push(x.data);else n.items.push(x.data)});
+  if(first){first=false;const l=load();for(const k in l.users)n.users[k]=n.users[k]||l.users[k];for(const k in l.qrs)n.qrs[k]=n.qrs[k]||l.qrs[k];l.cm.forEach(x=>n.cm.some(y=>y.id===x.id)||n.cm.push(x));l.items.forEach(x=>n.items.some(y=>y.id===x.id)||n.items.push(x))}
+  n.cm.sort((a,b)=>a.at-b.at);n.items.sort((a,b)=>a.at-b.at);
+  localStorage.setItem(KEY,JSON.stringify(n));db=load();snap=s;lp=Date.now();
+  if(current){current=db.users[current.id]||current;if(!checkMissions().length)refresh()}
+  push()
+ }catch(e){}}
+function toast(t){const x=$('toast');x.textContent=t;x.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>x.classList.remove('on'),2400)}
+const hash=s=>{let h=5381;for(const c of s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return h.toString(36)};
+async function pinHash(p){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(CFG.salt+p));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return'h:'+hash(CFG.salt+p)}}
+const idOf=n=>n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,20);
+function rankFor(xp){let cur=CFG.ranks[0],next=null;for(let i=0;i<CFG.ranks.length;i++){if(xp>=CFG.ranks[i][1])cur=CFG.ranks[i];else{next=CFG.ranks[i];break}}return{name:cur[0],from:cur[1],next}}
+function avatar(el,u){el.textContent=u.name.trim()[0].toUpperCase();el.style.background=COLORS[parseInt(hash(u.id),36)%COLORS.length]}
+const avHtml=(u,s=40)=>`<div class="av" style="width:${s}px;height:${s}px;font-size:${s*.5}px;background:${COLORS[parseInt(hash(u.id),36)%COLORS.length]}">${esc(u.name.trim()[0].toUpperCase())}</div>`;
+const when=t=>new Date(t).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+
+/* login */
+$('lgBrand').textContent=CFG.brand;$('lgSlogan').textContent=CFG.slogan;$('coinLbl').textContent=CFG.coin;
+function loginMsg(t,bad){const m=$('loginMsg');m.textContent=t;m.className='msg'+(bad?' bad':'')}
+$('loginName').addEventListener('input',()=>{const id=idOf($('loginName').value);loginMsg(!id?'':db.users[id]?'Bem-vindo de volta! Digite seu PIN.':'Apelido livre. Vamos criar sua conta.')});
+async function login(){
+ const n=$('loginName').value.trim(),p=$('loginPin').value,id=idOf(n);
+ if(!id){return loginMsg('Use letras ou números no apelido.',1)}
+ if(p.length<4){return loginMsg('O PIN precisa ter pelo menos 4 caracteres.',1)}
+ await pull();db=load();const h=await pinHash(p);let u=db.users[id];
+ if(!u){u=db.users[id]={id,name:n,pin:h,xp:0,coins:0,completed:[],redeemed:[],log:[],inv:[],joined:Date.now(),role:Object.keys(db.users).length?'PLAYER':'ADM'}}
+ else if(u.pin!==h&&u.pin!==p){return loginMsg('PIN incorreto. Tente de novo.',1)}
+ else u.pin=h;
+ current=u;$('loginPin').value='';loginMsg('');save();showApp();const g=checkMissions();if(g.length)toast(`Missão cumprida: ${g[0].t}`)
+}
+$('loginBtn').onclick=login;$('loginPin').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+function showApp(){localStorage.setItem(SESSION,current.id);$('login').classList.add('hidden');$('app').classList.remove('hidden');buildTabs();refresh();go('home')}
+function logout(){stopScan();closeSheet();localStorage.removeItem(SESSION);current=null;$('app').classList.add('hidden');$('login').classList.remove('hidden')}
+$('logoutBtn').onclick=logout;$('avTop').onclick=()=>go('profile');
+
+/* nav */
+function buildTabs(){
+ const t=[['home','home','Início'],['missions','target','Missões'],['scan','scan','Escanear'],['shop','bag','Loja'],current.role==='ADM'?['admin','crown','ADM']:['profile','user','Perfil']];
+ $('tabs').innerHTML=t.map(([id,i,l])=>`<button data-page="${id}" class="${id==='scan'?'go':''}" aria-label="${l}">${id==='scan'?`<span class="c">${ico(i)}</span>`:ico(i)}<span>${l}</span></button>`).join('');
+ $('tabs').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.page)}
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
+function go(id){
+ if(id==='admin'&&current.role!=='ADM')id='home';
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on',p.id===id));
+ document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.page===id));
+ scrollTo(0,0);pull();if(id==='scan')startScan();else stopScan()
+}
+
+/* data */
+function checkMissions(){const got=[];allM().forEach(m=>{if(!current.completed.includes(m.id)&&m.prog(current)>=m.goal){current.completed.push(m.id);current.xp+=m.xp;current.coins+=m.c;current.log.push({t:'Missão: '+m.t,xp:m.xp,c:m.c,at:Date.now()});got.push(m)}});if(got.length){save();refresh()}return got}
+function refresh(){
+ if(!current)return;const r=rankFor(current.xp);
+ avatar($('avTop'),current);avatar($('avBig'),current);
+ $('hName').textContent=current.name;$('hRank').textContent=r.name;
+ $('cXp').textContent=fmt(current.xp);$('cCoins').textContent=fmt(current.coins);$('xp').textContent=fmt(current.xp);$('coins').textContent=fmt(current.coins);
+ $('rank').textContent=r.name;
+ $('rankBar').style.width=(r.next?Math.round((current.xp-r.from)/(r.next[1]-r.from)*100):100)+'%';
+ $('next').textContent=r.next?`Faltam ${fmt(r.next[1]-current.xp)} XP para ${r.next[0]}`:'Você chegou ao rank máximo.';
+ const nm=allM().find(m=>!current.completed.includes(m.id));
+ $('nextMission').innerHTML=nm?`<b>${esc(nm.t)}</b><div class="muted" style="margin-bottom:10px">${esc(nm.d)}</div><div class="bar"><b style="width:${Math.min(100,nm.prog(current)/nm.goal*100)}%"></b></div>`:'<div class="empty">Todas as missões concluídas.</div>';
+ const lg=current.log.slice(-5).reverse();
+ $('activity').innerHTML=lg.length?lg.map(l=>`<div class="row"><div class="ico">${ico('check')}</div><div><b>${esc(l.t)}</b><small>${when(l.at)}</small></div><span class="pill">${l.xp?'+'+fmt(l.xp)+' XP':fmt(l.c)+' '+esc(CFG.coin)}</span></div>`).join(''):'<div class="empty">Nada por aqui ainda. Escaneie um QR para começar.</div>';
+ $('missionList').innerHTML=allM().map(m=>{const d=current.completed.includes(m.id),p=Math.min(m.goal,m.prog(current));return`<div class="row"><div class="ico ${d?'done':''}">${d||!m.img?ico(d?'check':'target'):`<img src="${m.img}" alt="">`}</div><div><b>${esc(m.t)}</b><small>${esc(m.d)}</small>${d?'':`<div class="bar" style="margin-top:8px"><b style="width:${p/m.goal*100}%"></b></div>`}</div><span class="pill">+${m.xp} XP</span></div>`}).join('');
+ const us=Object.values(db.users).sort((a,b)=>b.xp-a.xp);
+ $('rankingList').innerHTML=us.map((u,i)=>`<div class="row ${u.id===current.id?'me':''}"><div class="pos ${i<3?'p'+(i+1):''}">${i+1}</div>${avHtml(u)}<div><b>${esc(u.name)}</b><small>${rankFor(u.xp).name}</small></div><span class="pill">${fmt(u.xp)} XP</span></div>`).join('');
+ $('pName').textContent=current.name;$('pRole').textContent=current.role==='ADM'?'Administrador':'Jogador';
+ $('pInfo').textContent=`Na gangue desde ${when(current.joined)} · ${current.redeemed.length} resgates`;
+ renderAdmin();renderShop()
+}
+function renderAdmin(){
+ $('tiers').innerHTML=CFG.tiers.map((t,i)=>`<button class="tier ${i===CFG.tiers.length-1?'leg':''}" data-t="${i}" aria-pressed="${i===tier}"><b>${t[0]}</b><small>${fmt(t[1])} XP + ${fmt(t[2])} ${esc(CFG.coin)}</small></button>`).join('');
+ const q=Object.values(db.qrs).slice(-20).reverse();
+ $('qrHistory').innerHTML=q.length?q.map(x=>`<div class="row"><div><b style="font-family:var(--disp);letter-spacing:1px;font-weight:400">${esc(x.code)}</b><small>+${fmt(x.xp)} XP · +${fmt(x.coins)} ${esc(CFG.coin)}${x.usedBy?' · '+esc(db.users[x.usedBy]?.name||'jogador'):''}</small></div><button class="btn sm ${x.status==='USED'?'sec':''}" data-show="${esc(x.code)}">${x.status==='USED'?'Usado':'Ver QR'}</button></div>`).join(''):'<div class="empty">Nenhum QR gerado ainda.</div>'
+}
+$('tiers').onclick=e=>{const b=e.target.closest('.tier');if(b){tier=+b.dataset.t;renderAdmin()}};
+$('qrHistory').onclick=e=>{const b=e.target.closest('[data-show]');if(b)showTicket(b.dataset.show)};
+
+/* qr */
+const payload=(c,xp,co)=>`GDU1.${c}.${xp}.${co}.${hash(c+xp+co+CFG.salt)}`;
+function parse(txt){txt=String(txt).trim();const p=txt.split('.');
+ if(p.length===5&&p[0]==='GDU1'&&hash(p[1]+p[2]+p[3]+CFG.salt)===p[4])return{code:p[1],xp:+p[2],coins:+p[3]};
+ const q=db.qrs[txt];return q?{code:q.code,xp:q.xp,coins:q.coins}:null}
+const rand=n=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=new Uint32Array(n);crypto.getRandomValues(r);return[...r].map(x=>a[x%a.length]).join('')};
+$('genBtn').onclick=()=>{
+ if(current.role!=='ADM')return;db=load();current=db.users[current.id]||current;
+ const t=CFG.tiers[tier];let code;do code=rand(4)+'-'+rand(4);while(db.qrs[code]);
+ db.qrs[code]={code,xp:t[1],coins:t[2],tier:t[0],status:'AVAILABLE',createdBy:current.id,createdAt:Date.now(),usedBy:null,usedAt:null};
+ save();refresh();showTicket(code);toast('QR criado')
+};
+function showTicket(code){
+ const q=db.qrs[code];if(!q)return;
+ $('ticketBox').innerHTML=`<div class="ticket"><b style="font:400 20px var(--disp)">${esc(q.tier||'Recompensa')}</b><div id="qrcode"></div><div class="code">${esc(code)}</div><small>+${fmt(q.xp)} XP · +${fmt(q.coins)} ${esc(CFG.coin)}</small><button class="btn sm" id="dl">${ico('down')}Salvar imagem</button></div>`;
+ new QRCode($('qrcode'),{text:payload(code,q.xp,q.coins),width:220,height:220,correctLevel:QRCode.CorrectLevel.M});
+ $('dl').onclick=()=>downloadQR(q);$('ticketBox').scrollIntoView({behavior:'smooth',block:'center'})
+}
+function downloadQR(q){
+ const src=document.querySelector('#qrcode canvas');if(!src)return toast('Gere o QR primeiro.');
+ const c=document.createElement('canvas');c.width=640;c.height=800;const x=c.getContext('2d');
+ x.fillStyle='#FFFDF5';x.fillRect(0,0,640,800);x.fillStyle='#FFC21A';x.fillRect(0,0,640,120);
+ x.fillStyle='#2A1D00';x.textAlign='center';x.font='56px "Lilita One",Arial,sans-serif';x.fillText(CFG.brand,320,78);
+ x.imageSmoothingEnabled=false;x.drawImage(src,70,160,500,500);
+ x.fillStyle='#1D1350';x.font='46px "Lilita One",Arial,sans-serif';x.fillText(q.code,320,720);
+ x.font='26px Arial,sans-serif';x.fillText(`+${q.xp} XP · +${q.coins} ${CFG.coin}`,320,764);
+ const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='gangue-do-unicornio-'+q.code+'.png';a.click()
+}
+
+/* scanner */
+function setState(t,k){const s=$('scanState');s.textContent=t;s.className='state'+(k?' '+k:'')}
+function startScan(){scQ=scQ.then(async()=>{if(sc)return;
+ try{sc=new Html5Qrcode('reader');await sc.start({facingMode:'environment'},{fps:10,aspectRatio:1},onScan,()=>{});setState('Aponte a câmera para um QR de recompensa.')}
+ catch(e){sc=null;setState('Não foi possível abrir a câmera. Permita o acesso ou escolha uma imagem.','bad')}})}
+function stopScan(){scQ=scQ.then(async()=>{if(!sc)return;try{await sc.stop();sc.clear()}catch(e){}sc=null})}
+async function onScan(txt){if(locked)return;locked=true;if(Date.now()-lp>4000)await pull();db=load();current=db.users[current.id]||current;if(!handle(txt))locked=false}
+function handle(txt){
+ const r=parse(txt);
+ if(!r){setState('QR não reconhecido. Use um QR gerado pela gangue.','bad');return false}
+ if(current.redeemed.includes(r.code)||db.qrs[r.code]?.status==='USED'){setState('Esse QR já foi resgatado.','bad');return false}
+ locked=true;setState('QR válido!','ok');
+ sheet(`<div class="muted">Recompensa encontrada</div><div class="gain"><div><strong>+${fmt(r.xp)}</strong><span>XP</span></div><div><strong>+${fmt(r.coins)}</strong><span>${esc(CFG.coin)}</span></div></div><button class="btn" id="redeem">Resgatar agora</button><button class="btn sec" id="cancel">Cancelar</button>`,()=>{locked=false});
+ $('cancel').onclick=closeSheet;$('redeem').onclick=()=>redeem(r);return true
+}
+async function redeem(r){
+ await pull();db=load();current=db.users[current.id];
+ if(current.redeemed.includes(r.code)||db.qrs[r.code]?.status==='USED'){closeSheet();return toast('Esse QR já foi resgatado.')}
+ const before=rankFor(current.xp).name;
+ current.redeemed.push(r.code);current.xp+=r.xp;current.coins+=r.coins;current.log.push({t:'QR resgatado',xp:r.xp,c:r.coins,at:Date.now()});
+ const q=db.qrs[r.code];if(q){q.status='USED';q.usedBy=current.id;q.usedAt=Date.now()}
+ save();const ms=checkMissions(),after=rankFor(current.xp).name;refresh();
+ sheet(`<div class="big" id="cnt">+0</div><div class="muted">XP e ${fmt(r.coins)} ${esc(CFG.coin)} na conta</div>${after!==before?`<div class="pill" style="justify-self:center;font-size:16px">Novo rank: ${esc(after)}</div>`:''}${ms.map(m=>`<div class="pill" style="justify-self:center">Missão: ${esc(m.t)}</div>`).join('')}<button class="btn" id="ok">Continuar</button>`,()=>{locked=false;setState('Aponte a câmera para um QR de recompensa.')});
+ $('ok').onclick=closeSheet;
+ const t0=performance.now();(function step(t){const k=Math.min(1,(t-t0)/700);$('cnt')&&($('cnt').textContent='+'+fmt(Math.round(r.xp*(1-Math.pow(1-k,3)))));if(k<1)requestAnimationFrame(step)})(t0)
+}
+$('file').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+ try{const h=new Html5Qrcode('fileReader');const t=await h.scanFile(f,false);h.clear();onScan(t)}catch(err){setState('Nenhum QR encontrado nessa imagem.','bad')}}
+
+/* sheet */
+let onClose=null;
+function sheet(html,cb){closeSheet(true);onClose=cb;const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;v.onclick=e=>{if(e.target===v)closeSheet()};$('sheetHost').appendChild(v)}
+function closeSheet(silent){$('sheetHost').innerHTML='';const f=onClose;onClose=null;if(f&&!silent)f();else if(f)f()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+
+/* missões e loja */
+const allM=()=>CFG.missions.concat(db.cm.map(m=>({...m,d:m.type==='manual'?m.d+' · validada pelo ADM':m.d,prog:m.type==='qr'?u=>u.redeemed.length:m.type==='xp'?u=>u.xp:u=>u.completed.includes(m.id)?1:0})));
+const pic=(s,i)=>s?`<img src="${s}" alt="">`:ico(i);
+const fresh=()=>{db=load();current=db.users[current.id]||current};
+let pimg='';
+const imgPick=()=>`<div class="imgpick"><div class="ico" id="pv">${ico('image')}</div><label class="btn sec sm" style="cursor:pointer">Escolher imagem<input id="pf" type="file" accept="image/*" hidden></label></div>`;
+document.addEventListener('change',e=>{if(e.target.id!=='pf')return;const f=e.target.files[0];if(!f)return;const im=new Image();
+ im.onload=()=>{const k=Math.min(1,256/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);pimg=c.toDataURL('image/jpeg',.72);$('pv').innerHTML=`<img src="${pimg}" alt="">`;URL.revokeObjectURL(im.src)};
+ im.onerror=()=>toast('Não consegui abrir essa imagem.');im.src=URL.createObjectURL(f)});
+const num=(id,d)=>Math.max(0,Math.round(+$(id).value)||d);
+function formM(){pimg='';sheet(`<div class="frm"><h2>Nova missão</h2>${imgPick()}
+<label class="field"><span>Título</span><input id="fT" type="text" maxlength="40"></label>
+<label class="field"><span>Descrição</span><input id="fD" type="text" maxlength="90"></label>
+<label class="field"><span>Como se completa</span><select id="fK"><option value="qr">Resgatando QRs</option><option value="xp">Chegando a um total de XP</option><option value="manual">O ADM confirma</option></select></label>
+<label class="field"><span>Meta (quantidade de QRs ou de XP)</span><input id="fG" type="number" min="1" value="1"></label>
+<div class="pair" style="margin:0"><label class="field"><span>Ganha XP</span><input id="fX" type="number" min="0" value="50"></label><label class="field"><span>Ganha moedas</span><input id="fC" type="number" min="0" value="5"></label></div>
+<button class="btn" id="fOk">Criar missão</button><button class="btn sec" id="fNo">Cancelar</button></div>`);
+ $('fNo').onclick=closeSheet;$('fOk').onclick=()=>{const t=$('fT').value.trim();if(!t)return toast('Dê um título à missão.');const k=$('fK').value;fresh();
+  db.cm.push({id:'c'+Date.now().toString(36),t,d:$('fD').value.trim(),type:k,goal:k==='manual'?1:Math.max(1,num('fG',1)),xp:num('fX',0),c:num('fC',0),img:pimg,at:Date.now()});
+  save();closeSheet();refresh();toast('Missão criada')}}
+function formI(){pimg='';sheet(`<div class="frm"><h2>Novo item</h2>${imgPick()}
+<label class="field"><span>Nome</span><input id="fT" type="text" maxlength="40"></label>
+<label class="field"><span>Descrição</span><input id="fD" type="text" maxlength="90"></label>
+<div class="pair" style="margin:0"><label class="field"><span>Preço (moedas)</span><input id="fX" type="number" min="0" value="20"></label><label class="field"><span>Estoque</span><input id="fS" type="number" min="0" placeholder="Ilimitado"></label></div>
+<button class="btn" id="fOk">Criar item</button><button class="btn sec" id="fNo">Cancelar</button></div>`);
+ $('fNo').onclick=closeSheet;$('fOk').onclick=()=>{const t=$('fT').value.trim();if(!t)return toast('Dê um nome ao item.');fresh();
+  db.items.push({id:'i'+Date.now().toString(36),name:t,d:$('fD').value.trim(),price:num('fX',0),stock:$('fS').value===''?-1:num('fS',0),img:pimg,at:Date.now()});
+  save();closeSheet();refresh();toast('Item criado')}}
+$('newM').onclick=formM;$('newI').onclick=formI;
+function renderShop(){
+ $('shopSub').textContent=`Você tem ${fmt(current.coins)} ${CFG.coin}`;
+ $('shopList').innerHTML=db.items.length?db.items.map(i=>{const out=i.stock===0;return`<div class="item"><div class="pic">${pic(i.img,'bag')}</div><div class="bd"><b>${esc(i.name)}</b>${i.d?`<small>${esc(i.d)}</small>`:''}${i.stock<0?'':`<small>${out?'Esgotado':i.stock+' restantes'}</small>`}<button class="btn sm" data-buy="${i.id}" ${out||current.coins<i.price?'disabled':''}>${fmt(i.price)} ${esc(CFG.coin)}</button></div></div>`}).join(''):'<div class="empty" style="grid-column:1/-1">A loja ainda está vazia.</div>';
+ const mine=(current.inv||[]).slice().reverse();
+ $('myItems').innerHTML=mine.length?mine.map(p=>`<div class="row"><div class="ico">${pic((db.items.find(x=>x.id===p.item)||{}).img,'bag')}</div><div><b>${esc(p.name)}</b><small>${when(p.at)}</small></div><span class="pill">${p.done?'Entregue':'Pendente'}</span></div>`).join(''):'<div class="empty">Você ainda não comprou nada.</div>';
+ if(current.role!=='ADM')return;
+ $('admM').innerHTML=db.cm.map(m=>`<div class="row"><div class="ico">${pic(m.img,'target')}</div><div><b>${esc(m.t)}</b><small>${m.type==='qr'?m.goal+' QR':m.type==='xp'?m.goal+' XP':'Você confirma'} · +${fmt(m.xp)} XP · +${fmt(m.c)}</small></div>${m.type==='manual'?`<button class="btn sm" data-give="${m.id}">Dar</button>`:''}<button class="btn sm sec" data-dm="${m.id}" aria-label="Excluir">×</button></div>`).join('');
+ $('admI').innerHTML=db.items.map(i=>`<div class="row"><div class="ico">${pic(i.img,'bag')}</div><div><b>${esc(i.name)}</b><small>${fmt(i.price)} ${esc(CFG.coin)} · ${i.stock<0?'ilimitado':i.stock+' em estoque'}</small></div><button class="btn sm sec" data-di="${i.id}" aria-label="Excluir">×</button></div>`).join('');
+ const od=Object.values(db.users).flatMap(u=>(u.inv||[]).filter(p=>!p.done).map(p=>({u,p})));
+ $('admO').innerHTML=od.length?od.map(({u,p})=>`<div class="row"><div class="ico">${pic((db.items.find(x=>x.id===p.item)||{}).img,'bag')}</div><div><b>${esc(p.name)}</b><small>${esc(u.name)} · ${when(p.at)}</small></div><button class="btn sm" data-ship="${u.id}|${p.id}">Entregue</button></div>`).join(''):'<div class="empty">Nenhum pedido pendente.</div>'}
+async function buy(id){await pull();fresh();const it=db.items.find(x=>x.id===id);
+ if(!it||it.stock===0){closeSheet();return toast('Esse item acabou.')}
+ if(current.coins<it.price){closeSheet();return toast('Moedas insuficientes.')}
+ current.coins-=it.price;if(it.stock>0)it.stock--;
+ current.inv.push({id:rand(6),item:it.id,name:it.name,price:it.price,at:Date.now(),done:false});
+ current.log.push({t:'Compra: '+it.name,xp:0,c:-it.price,at:Date.now()});
+ save();closeSheet();refresh();toast('Compra feita! O ADM vai te entregar.')}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-buy],[data-give],[data-gv],[data-dm],[data-di],[data-ship]');if(!b)return;const d=b.dataset;
+ if(d.buy){const it=db.items.find(x=>x.id===d.buy);if(!it)return;
+  sheet(`<div class="big" style="font-size:38px">${esc(it.name)}</div>${it.img?`<img src="${it.img}" alt="" style="width:150px;height:150px;object-fit:cover;border-radius:20px;justify-self:center">`:''}<div class="muted">${esc(it.d||'')}</div><button class="btn" id="yes">Comprar por ${fmt(it.price)} ${esc(CFG.coin)}</button><button class="btn sec" id="no">Cancelar</button>`);
+  $('no').onclick=closeSheet;$('yes').onclick=()=>buy(it.id)}
+ else if(d.give){fresh();const m=db.cm.find(x=>x.id===d.give);const us=Object.values(db.users).filter(u=>!u.completed.includes(m.id));
+  sheet(`<h2>Dar "${esc(m.t)}" a quem?</h2>${us.map(u=>`<button class="btn sec" data-gv="${m.id}|${u.id}">${esc(u.name)}</button>`).join('')||'<div class="empty">Todo mundo já completou.</div>'}<button class="btn sec" id="no">Fechar</button>`);$('no').onclick=closeSheet}
+ else if(d.gv){const[mid,uid]=d.gv.split('|');fresh();const m=db.cm.find(x=>x.id===mid),u=db.users[uid];
+  if(m&&u&&!u.completed.includes(mid)){u.completed.push(mid);u.xp+=m.xp;u.coins+=m.c;u.log.push({t:'Missão: '+m.t,xp:m.xp,c:m.c,at:Date.now()})}
+  save();closeSheet();refresh();toast('Missão concedida')}
+ else if(d.dm){if(!confirm('Excluir esta missão?'))return;fresh();db.cm=db.cm.filter(x=>x.id!==d.dm);save();refresh()}
+ else if(d.di){if(!confirm('Excluir este item?'))return;fresh();db.items=db.items.filter(x=>x.id!==d.di);save();refresh()}
+ else if(d.ship){const[uid,pid]=d.ship.split('|');fresh();const p=((db.users[uid]||{}).inv||[]).find(x=>x.id===pid);if(p){p.done=true;save();refresh()}}
+});
+
+/* init */
+if(SB)$('lgNote').textContent='Seus dados ficam salvos na nuvem da gangue.';
+(async()=>{await pull();const s=localStorage.getItem(SESSION);if(s&&db.users[s]){current=db.users[s];showApp()}})();
+setInterval(()=>{if(SB&&current&&!document.hidden)push().then(pull)},20000);
+</script>
+</body>
+</html>
